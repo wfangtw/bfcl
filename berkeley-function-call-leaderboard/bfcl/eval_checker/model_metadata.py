@@ -487,6 +487,12 @@ MODEL_METADATA_MAPPING = {
         "Meta",
         "Meta Llama 3 Community",
     ],
+    "meta-llama/Llama-3-8B-Instruct-FC": [
+        "Meta-Llama-3-8B-Instruct (FC)",
+        "https://llama.meta.com/llama3",
+        "Meta",
+        "Meta Llama 3 Community",
+    ],
     "meta-llama/Llama-3.1-8B-Instruct-FC": [
         "Llama-3.1-8B-Instruct (FC)",
         "https://llama.meta.com/llama3",

@@ -28,6 +28,7 @@ from bfcl.model_handler.proprietary_model.openai import OpenAIHandler
 from bfcl.model_handler.proprietary_model.writer import WriterHandler
 from bfcl.model_handler.proprietary_model.yi import YiHandler
 from bfcl.model_handler.proprietary_model.grok import GrokHandler
+from bfcl.model_handler.oss_model.bam_llama import BamLlamaHandler
 
 # TODO: Add meta-llama/Llama-3.1-405B-Instruct
 
@@ -42,6 +43,8 @@ api_inference_handler_map = {
     "gpt-4o-mini-2024-07-18-FC": OpenAIHandler,
     "gpt-4-turbo-2024-04-09": OpenAIHandler,
     "gpt-4-turbo-2024-04-09-FC": OpenAIHandler,
+    "gpt-3.5-turbo-1106": OpenAIHandler,
+    "gpt-3.5-turbo-1106-FC": OpenAIHandler,
     "gpt-3.5-turbo-0125": OpenAIHandler,
     "gpt-3.5-turbo-0125-FC": OpenAIHandler,
     "claude-3-opus-20240229": ClaudeHandler,
@@ -92,6 +95,13 @@ api_inference_handler_map = {
     # "yi-large-fc": YiHandler,  #  Their API is under maintenance, and will not be back online in the near future
     "palmyra-x-004": WriterHandler,
     "grok-beta": GrokHandler,
+    "meta-llama/Llama-3-8B-Instruct-FC": BamLlamaHandler,
+    # "meta-llama/Llama-3.1-8B-Instruct-FC": RtsLlamaHandler,
+    # "meta-llama/Llama-3.1-70B-Instruct-FC": RtsLlamaHandler,
+    # "meta-llama/Llama-3.2-11B-Instruct-FC": RtsLlamaHandler,
+    # "meta-llama/Llama-3.2-90B-Instruct-FC": RtsLlamaHandler,
+    # "meta-llama/Llama-3.3-70B-Instruct-FC": RtsLlamaHandler,
+    # "Qwen/Qwen2.5-72B-Instruct": RtsQwenHandler,
 }
 
 # Inference through local hosting
@@ -99,14 +109,14 @@ local_inference_handler_map = {
     "google/gemma-2-2b-it": GemmaHandler,
     "google/gemma-2-9b-it": GemmaHandler,
     "google/gemma-2-27b-it": GemmaHandler,
-    "meta-llama/Meta-Llama-3-8B-Instruct": LlamaHandler,
-    "meta-llama/Meta-Llama-3-70B-Instruct": LlamaHandler,
-    "meta-llama/Llama-3.1-8B-Instruct-FC": LlamaFCHandler,
-    "meta-llama/Llama-3.1-8B-Instruct": LlamaHandler,
-    "meta-llama/Llama-3.1-70B-Instruct-FC": LlamaFCHandler,
-    "meta-llama/Llama-3.1-70B-Instruct": LlamaHandler,
-    "meta-llama/Llama-3.2-1B-Instruct": LlamaHandler,
-    "meta-llama/Llama-3.2-3B-Instruct": LlamaHandler,
+    # "meta-llama/Meta-Llama-3-8B-Instruct": LlamaHandler,
+    # "meta-llama/Meta-Llama-3-70B-Instruct": LlamaHandler,
+    # "meta-llama/Llama-3.1-8B-Instruct-FC": LlamaFCHandler,
+    # "meta-llama/Llama-3.1-8B-Instruct": LlamaHandler,
+    # "meta-llama/Llama-3.1-70B-Instruct-FC": LlamaFCHandler,
+    # "meta-llama/Llama-3.1-70B-Instruct": LlamaHandler,
+    # "meta-llama/Llama-3.2-1B-Instruct": LlamaHandler,
+    # "meta-llama/Llama-3.2-3B-Instruct": LlamaHandler,
     "Salesforce/xLAM-1b-fc-r": SalesforceHandler,
     "Salesforce/xLAM-7b-fc-r": SalesforceHandler,
     "Salesforce/xLAM-7b-r": SalesforceHandler,
@@ -134,7 +144,7 @@ local_inference_handler_map = {
     "Qwen/Qwen2-7B-Instruct": QwenHandler,
     "Qwen/Qwen2.5-1.5B-Instruct": QwenHandler,
     "Qwen/Qwen2.5-7B-Instruct": QwenHandler,
-    "Qwen/Qwen2.5-72B-Instruct": QwenHandler,
+    # "Qwen/Qwen2.5-72B-Instruct": QwenHandler,
     "Team-ACE/ToolACE-8B": LlamaHandler,
     "openbmb/MiniCPM3-4B": MiniCPMHandler,
     "openbmb/MiniCPM3-4B-FC": MiniCPMFCHandler,
