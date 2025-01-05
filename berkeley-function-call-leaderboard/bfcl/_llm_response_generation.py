@@ -15,6 +15,7 @@ from bfcl.constant import (
     TEST_COLLECTION_MAPPING,
     TEST_FILE_MAPPING,
     TEST_IDS_TO_GENERATE_PATH,
+    VERSION_PREFIX,
 )
 from bfcl.eval_checker.eval_runner_helper import load_file
 from bfcl.model_handler.handler_map import HANDLER_MAP
@@ -69,7 +70,8 @@ def parse_test_category_argument(test_category_args):
                 test_filename_total.add(TEST_FILE_MAPPING[test_name])
         else:
             test_name_total.add(test_category)
-            test_filename_total.add(TEST_FILE_MAPPING[test_category])
+            # test_filename_total.add(TEST_FILE_MAPPING[test_category])
+            test_filename_total.add(f'{VERSION_PREFIX}_{test_category}.json')
 
     return sorted(list(test_name_total)), sorted(list(test_filename_total))
 
@@ -82,7 +84,8 @@ def get_involved_test_entries(test_category_args, run_ids):
         for category, test_ids in test_ids_to_generate.items():
             if len(test_ids) == 0:
                 continue
-            test_file_path = TEST_FILE_MAPPING[category]
+            # test_file_path = TEST_FILE_MAPPING[category]
+            test_file_path = f'{VERSION_PREFIX}_{category}.json'
             all_test_entries_involved.extend(
                 [entry for entry in load_file(PROMPT_PATH / test_file_path) if entry["id"] in test_ids]
             )
