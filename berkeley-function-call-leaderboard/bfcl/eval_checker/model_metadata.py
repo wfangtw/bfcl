@@ -19,6 +19,18 @@ MODEL_METADATA_MAPPING = {
         "OpenAI",
         "Proprietary",
     ],
+    "gpt-4o-2024-11-20": [
+        "GPT-4o-2024-11-20 (Prompt)",
+        "https://openai.com/index/hello-gpt-4o/",
+        "OpenAI",
+        "Proprietary",
+    ],
+    "gpt-4o-2024-11-20-FC": [
+        "GPT-4o-2024-11-20 (FC)",
+        "https://openai.com/index/hello-gpt-4o/",
+        "OpenAI",
+        "Proprietary",
+    ],
     "gpt-4o-2024-08-06": [
         "GPT-4o-2024-08-06 (Prompt)",
         "https://openai.com/index/hello-gpt-4o/",
@@ -469,7 +481,7 @@ MODEL_METADATA_MAPPING = {
         "Meta",
         "Meta Llama 3 Community",
     ],
-    "meta-llama/Llama-3.1-70B-Instruct": [
+    "meta-llama/llama-3-1-70b-instruct": [
         "Llama-3.1-70B-Instruct (Prompt)",
         "https://llama.meta.com/llama3",
         "Meta",
@@ -499,8 +511,14 @@ MODEL_METADATA_MAPPING = {
         "Meta",
         "Meta Llama 3 Community",
     ],
-    "meta-llama/Llama-3.1-70B-Instruct-FC": [
+    "meta-llama/llama-3-1-70B-instruct-FC": [
         "Llama-3.1-70B-Instruct (FC)",
+        "https://llama.meta.com/llama3",
+        "Meta",
+        "Meta Llama 3 Community",
+    ],
+    "meta-llama/llama-3-3-70B-instruct-FC": [
+        "Llama-3.3-70B-Instruct (FC)",
         "https://llama.meta.com/llama3",
         "Meta",
         "Meta Llama 3 Community",
@@ -755,6 +773,8 @@ INPUT_PRICE_PER_MILLION_TOKEN = {
     "gpt-4o-2024-05-13": 5,
     "gpt-4o-2024-08-06-FC": 2.5,
     "gpt-4o-2024-08-06": 2.5,
+    "gpt-4o-2024-11-20-FC": 2.5,
+    "gpt-4o-2024-11-20": 2.5,
     "gpt-4o-mini-2024-07-18": 0.15,
     "gpt-4o-mini-2024-07-18-FC": 0.15,
     "gpt-4-1106-preview-FC": 10,
@@ -819,6 +839,8 @@ OUTPUT_PRICE_PER_MILLION_TOKEN = {
     "gpt-4o-2024-05-13": 15,
     "gpt-4o-2024-08-06-FC": 10,
     "gpt-4o-2024-08-06": 10,
+    "gpt-4o-2024-11-20-FC": 10,
+    "gpt-4o-2024-11-20": 10,
     "gpt-4o-mini-2024-07-18": 0.6,
     "gpt-4o-mini-2024-07-18-FC": 0.6,
     "gpt-4-turbo-2024-04-09-FC": 30,

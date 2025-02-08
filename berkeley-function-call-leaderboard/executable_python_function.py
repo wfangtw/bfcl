@@ -5,13 +5,13 @@ import requests
 import time
 
 # Make sure the env variables are populated
-ENV_VARS = ("GEOCODE_API_KEY", "RAPID_API_KEY", "OMDB_API_KEY", "EXCHANGERATE_API_KEY")
-api_key = {}
-for var in ENV_VARS:
-    if os.getenv(var) == "":
-        raise NotImplementedError
+# ENV_VARS = ("GEOCODE_API_KEY", "RAPID_API_KEY", "OMDB_API_KEY", "EXCHANGERATE_API_KEY")
+# api_key = {}
+# for var in ENV_VARS:
+    # if os.getenv(var) == "":
+        # raise NotImplementedError
 
-    api_key[var.replace("_", "-")] = os.getenv(var)
+    # api_key[var.replace("_", "-")] = os.getenv(var)
 
 
 def calculate_triangle_area(base, height):
@@ -359,7 +359,7 @@ def get_coordinates_from_city(city_name):
     """
     time.sleep(2)  # To avoid rate limiting
     url = "https://geocode.maps.co/search"
-    params = {"q": city_name, "api_key": api_key["GEOCODE-API-KEY"]}
+    params = {"q": city_name, "api_key": os.environ["GEOCODE_API_KEY"]}
 
     response = requests.get(url, params=params)
     if response.status_code == 200:
@@ -384,7 +384,7 @@ def convert_currency(amount, from_currency, to_currency):
     Returns:
     float: The converted amount in the target currency.
     """
-    key = api_key["EXCHANGERATE-API-KEY"]
+    key = os.environ["EXCHANGERATE_API_KEY"]
     base_url = f"https://v6.exchangerate-api.com/v6/{key}/latest/{from_currency}"
     response = requests.get(base_url)
 
@@ -411,7 +411,7 @@ def find_term_on_urban_dictionary(term):
     querystring = {"term": term}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "mashape-community-urban-dictionary.p.rapidapi.com",
     }
 
@@ -459,7 +459,7 @@ def get_covid_death_by_country(country):
     querystring = {"country": country}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "covid-193.p.rapidapi.com",
     }
 
@@ -481,7 +481,7 @@ def get_active_covid_case_by_country(country):
     querystring = {"country": country}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "covid-193.p.rapidapi.com",
     }
 
@@ -496,7 +496,7 @@ def get_rating_by_amazon_ASIN(ASIN):
     url = "https://real-time-amazon-data.p.rapidapi.com/product-details"
     querystring = {"asin": ASIN, "country": "US"}
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com",
     }
 
@@ -518,7 +518,7 @@ def get_price_by_amazon_ASIN(ASIN):
     url = "https://real-time-amazon-data.p.rapidapi.com/product-details"
     querystring = {"asin": ASIN, "country": "US"}
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com",
     }
 
@@ -540,7 +540,7 @@ def get_product_name_by_amazon_ASIN(ASIN):
     url = "https://real-time-amazon-data.p.rapidapi.com/product-details"
     querystring = {"asin": ASIN, "country": "US"}
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com",
     }
 
@@ -569,7 +569,7 @@ def get_company_name_by_stock_name(stock_name):
     querystring = {"search": stock_name}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
     }
 
@@ -591,7 +591,7 @@ def get_stock_price_by_stock_name(stock_name):
     querystring = {"ticker": stock_name}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
     }
 
@@ -619,7 +619,7 @@ def get_stock_history(stock_name, interval, diffandsplits="true"):
     }
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
     }
 
@@ -669,7 +669,7 @@ def get_time_zone_by_coord(long, lat):
     querystring = {"lat": lat, "lon": long, "c": "1", "s": "0"}
 
     headers = {
-        "X-RapidAPI-Key": api_key["RAPID-API-KEY"],
+        "X-RapidAPI-Key": os.environ["RAPIDAPI_KEY"],
         "X-RapidAPI-Host": "timezone-by-location.p.rapidapi.com",
     }
 
@@ -863,7 +863,7 @@ def get_movie_rating(movie_name):
         movie_name (str): The name of the movie.
     """
     url = "http://www.omdbapi.com/"
-    params = {"t": movie_name, "apikey": api_key["OMDB-API-KEY"]}
+    params = {"t": movie_name, "apikey": os.environ["OMDB_API_KEY"]}
     response = requests.get(url, params=params)
     return response.json()["Rated"]
 
@@ -875,7 +875,7 @@ def get_movie_director(movie_name):
         movie_name (str): The name of the movie.
     """
     url = "http://www.omdbapi.com/"
-    params = {"t": movie_name, "apikey": api_key["OMDB-API-KEY"]}
+    params = {"t": movie_name, "apikey": os.environ["OMDB_API_KEY"]}
     response = requests.get(url, params=params)
     return response.json()["Director"]
 

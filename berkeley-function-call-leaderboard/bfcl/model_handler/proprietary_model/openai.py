@@ -87,7 +87,7 @@ class OpenAIHandler(BaseHandler):
 
         return inference_data
 
-    def _parse_query_response_FC(self, api_response: any) -> dict:
+    def _parse_query_response_FC(self, api_response: any, inference_data: dict = None) -> dict:
         try:
             model_responses = [
                 {func_call.function.name: func_call.function.arguments}

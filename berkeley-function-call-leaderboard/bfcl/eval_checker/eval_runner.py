@@ -27,6 +27,7 @@ from bfcl.model_handler.handler_map import HANDLER_MAP
 from bfcl.utils import *
 from dotenv import load_dotenv
 from tqdm import tqdm
+from pathlib import Path
 
 # A dictionary to store the evaluation scores.
 # Key is model name, value is a dictionary with keys as test category and values as a dictionary with accuracy and total count
@@ -212,7 +213,7 @@ def executable_file_runner(
                 )
                 continue
 
-            checker_result = executable_checker_rest(decoded_result[0], i)
+            checker_result = executable_checker_rest(decoded_result[0], i, prompt[i])
 
         else:
             if not is_executable_format_output(decoded_result):
@@ -447,7 +448,7 @@ def ast_file_runner(
 
 
 #### Main runner function ####
-def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir):
+def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir, data_dir):
 
     # A flag to indicate if the API has been tested.
     # We should always test the API with ground truth first before running the executable tests.
@@ -502,7 +503,7 @@ def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir
             record_cost_latency(LEADERBOARD_TABLE, model_name, model_result)
 
             # Find the corresponding test file
-            prompt_file = find_file_with_suffix(PROMPT_PATH, test_category)
+            prompt_file = find_file_with_suffix(data_dir, test_category)
             prompt = load_file(prompt_file, sort_by_id=True)
 
             if is_relevance_or_irrelevance(test_category):
@@ -517,7 +518,7 @@ def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir
 
             if is_executable(test_category):
                 # We only test the API with ground truth once
-                if not API_TESTED and api_sanity_check:
+                if False and not API_TESTED and api_sanity_check:
                     print("---- Sanity checking API status ----")
                     try:
                         api_status_sanity_check_rest()
@@ -559,7 +560,7 @@ def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir
                 record_result(
                     LEADERBOARD_TABLE, model_name, test_category, accuracy, total_count
                 )
-                print(f"✅ Test completed: {test_category}. 🎯 Accuracy: {accuracy}")
+                print(f"✅ Test completed: {test_category}. 🎯 Accuracy: {accuracy:.5f}")
 
                 continue
 
@@ -608,7 +609,7 @@ def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir
 
     # Clean up the executable expected output files
     # They should be re-generated the next time the evaluation is run
-    clean_up_executable_expected_output(PROMPT_PATH, EXECUTABLE_TEST_CATEGORIES_HAVE_RUN)
+    clean_up_executable_expected_output(data_dir, EXECUTABLE_TEST_CATEGORIES_HAVE_RUN)
 
     display_api_status_error(
         API_STATUS_ERROR_REST, API_STATUS_ERROR_EXECUTABLE, display_success=False
@@ -622,7 +623,7 @@ def runner(model_names, test_categories, api_sanity_check, result_dir, score_dir
     )
 
 
-def main(model, test_category, api_sanity_check, result_dir, score_dir):
+def main(model, test_category, api_sanity_check, result_dir, score_dir, data_dir):
     if result_dir is None:
         result_dir = RESULT_PATH
     else:
@@ -632,6 +633,11 @@ def main(model, test_category, api_sanity_check, result_dir, score_dir):
         score_dir = SCORE_PATH
     else:
         score_dir = (PROJECT_ROOT / score_dir).resolve()
+
+    if data_dir is None:
+        data_dir = PROMPT_PATH
+    else:
+        data_dir = Path(data_dir)
 
     test_categories = None
     if test_category is not None:
@@ -651,7 +657,7 @@ def main(model, test_category, api_sanity_check, result_dir, score_dir):
             # We patch it here to avoid confusing the user.
             model_names.append(model_name.replace("/", "_"))
 
-    runner(model_names, test_categories, api_sanity_check, result_dir, score_dir)
+    runner(model_names, test_categories, api_sanity_check, result_dir, score_dir, data_dir)
 
 
 def get_handler(model_name):

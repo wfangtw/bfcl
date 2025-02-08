@@ -786,7 +786,7 @@ def parse_nested_value(value):
     """
     if isinstance(value, dict):
         # Check if the dictionary represents a function call (i.e., the value is another dictionary or complex structure)
-        if all(isinstance(v, dict) for v in value.values()):
+        if len(value) > 0 and all(isinstance(v, dict) for v in value.values()):
             func_name = list(value.keys())[0]
             args = value[func_name]
             args_str = ", ".join(f"{k}={parse_nested_value(v)}" for k, v in args.items())

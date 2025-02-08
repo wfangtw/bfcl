@@ -48,6 +48,7 @@ def get_args():
     parser.add_argument("--backend", default="vllm", type=str, choices=["vllm", "sglang"])
     parser.add_argument("--gpu-memory-utilization", default=0.9, type=float)
     parser.add_argument("--result-dir", default=None, type=str)
+    parser.add_argument("--custom-prompt-path", default=None, type=str)
     parser.add_argument("--run-ids", action="store_true", default=False)
     parser.add_argument("--allow-overwrite", "-o", action="store_true", default=False)
     args = parser.parse_args()
@@ -76,7 +77,7 @@ def parse_test_category_argument(test_category_args):
     return sorted(list(test_name_total)), sorted(list(test_filename_total))
 
 
-def get_involved_test_entries(test_category_args, run_ids):
+def get_involved_test_entries(test_category_args, run_ids, prompt_path):
     all_test_file_paths, all_test_categories, all_test_entries_involved = [], [], []
     if run_ids:
         with open(TEST_IDS_TO_GENERATE_PATH) as f:
@@ -87,7 +88,7 @@ def get_involved_test_entries(test_category_args, run_ids):
             # test_file_path = TEST_FILE_MAPPING[category]
             test_file_path = f'{VERSION_PREFIX}_{category}.json'
             all_test_entries_involved.extend(
-                [entry for entry in load_file(PROMPT_PATH / test_file_path) if entry["id"] in test_ids]
+                [entry for entry in load_file(prompt_path / test_file_path) if entry["id"] in test_ids]
             )
             all_test_categories.append(category)
             all_test_file_paths.append(test_file_path)
@@ -95,7 +96,7 @@ def get_involved_test_entries(test_category_args, run_ids):
     else:
         all_test_categories, all_test_file_paths = parse_test_category_argument(test_category_args)
         for test_category, file_to_open in zip(all_test_categories, all_test_file_paths):
-            all_test_entries_involved.extend(load_file(PROMPT_PATH / file_to_open))
+            all_test_entries_involved.extend(load_file(os.path.join(prompt_path, file_to_open)))
 
     return all_test_file_paths, all_test_categories, all_test_entries_involved
 
@@ -266,8 +267,9 @@ def main(args):
     if type(args.test_category) is not list:
         args.test_category = [args.test_category]
 
+    data_path = args.custom_prompt_path if args.custom_prompt_path else PROMPT_PATH
     all_test_file_paths, all_test_categories, all_test_entries_involved = (
-        get_involved_test_entries(args.test_category, args.run_ids)
+        get_involved_test_entries(args.test_category, args.run_ids, data_path)
     )
 
     print(f"Generating results for {args.model}")
@@ -278,7 +280,7 @@ def main(args):
 
     # Apply function credential config if any of the test categories are executable
     if any([is_executable(category) for category in all_test_categories]):
-        apply_function_credential_config(input_path=PROMPT_PATH)
+        apply_function_credential_config(input_path=PROMPT_PATH, output_path=data_path)
 
     if args.result_dir is not None:
         args.result_dir = PROJECT_ROOT / args.result_dir

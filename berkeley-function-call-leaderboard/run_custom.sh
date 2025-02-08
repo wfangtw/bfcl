@@ -8,12 +8,14 @@ bfcl generate \
   --test-category ${EXP_ID} \
   --num-threads ${N_THREADS} \
   --temperature ${TEMP} \
+  --custom-prompt-path ${TMP_DIR} \
   --result-dir ${RESULT_DIR} --allow-overwrite
 
 #meta-llama/Llama-3-8B-Instruct-FC
 bfcl evaluate \
   --model ${MODEL} \
   --test-category ${EXP_ID} \
+  --custom-prompt-path ${TMP_DIR} \
   --result-dir ${RESULT_DIR} \
   --score-dir ${SCORE_DIR}
 

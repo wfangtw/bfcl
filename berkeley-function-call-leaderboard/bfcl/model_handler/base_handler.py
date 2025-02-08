@@ -550,7 +550,7 @@ class BaseHandler:
         api_response, query_latency = self._query_FC(inference_data)
 
         # Try parsing the model response
-        model_response_data = self._parse_query_response_FC(api_response)
+        model_response_data = self._parse_query_response_FC(api_response, inference_data)
 
         # Process the metadata
         metadata = {}
@@ -572,9 +572,11 @@ class BaseHandler:
         self, test_entry: dict, include_input_log: bool
     ) -> tuple[any, dict]:
         inference_data: dict = self._pre_query_processing_prompting(test_entry)
+        # inference_data = self._compile_tools(inference_data, test_entry)
         inference_data = self.add_first_turn_message_prompting(
             inference_data, test_entry["question"][0]
         )
+        # print(inference_data)
 
         api_response, query_latency = self._query_prompting(inference_data)
 
