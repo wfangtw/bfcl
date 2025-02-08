@@ -118,6 +118,11 @@ def generate(
         "--result-dir",
         help="Path to the folder where output files will be stored.",
     ),
+    custom_prompt_path: str = typer.Option(
+        None,
+        "--custom-prompt-path",
+        help="Path to the folder where data is be stored.",
+    ),
     allow_overwrite: bool = typer.Option(
         False,
         "--allow-overwrite",
@@ -145,6 +150,7 @@ def generate(
         gpu_memory_utilization=gpu_memory_utilization,
         backend=backend,
         result_dir=result_dir,
+        custom_prompt_path=custom_prompt_path,
         allow_overwrite=allow_overwrite,
         run_ids=run_ids,
     )
@@ -236,13 +242,18 @@ def evaluate(
         "--score-dir",
         help="Relative path to the evaluation score folder, if different from the default; Path should be relative to the `berkeley-function-call-leaderboard` root folder",
     ),
+    data_dir: str = typer.Option(
+        None,
+        "--custom-prompt-path",
+        help="Data directory",
+    ),
 ):
     """
     Evaluate results from run of one or more models on a test-category (same as eval_runner.py).
     """
 
     load_dotenv(dotenv_path=DOTENV_PATH, verbose=True, override=True)  # Load the .env file
-    evaluation_main(model, test_category, api_sanity_check, result_dir, score_dir)
+    evaluation_main(model, test_category, api_sanity_check, result_dir, score_dir, data_dir)
 
 
 @cli.command()

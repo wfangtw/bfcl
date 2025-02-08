@@ -37,6 +37,8 @@ api_inference_handler_map = {
     "gorilla-openfunctions-v2": GorillaHandler,
     "o1-preview-2024-09-12": OpenAIHandler,
     "o1-mini-2024-09-12": OpenAIHandler,
+    "gpt-4o-2024-11-20": OpenAIHandler,
+    "gpt-4o-2024-11-20-FC": OpenAIHandler,
     "gpt-4o-2024-08-06": OpenAIHandler,
     "gpt-4o-2024-08-06-FC": OpenAIHandler,
     "gpt-4o-mini-2024-07-18": OpenAIHandler,
@@ -95,13 +97,16 @@ api_inference_handler_map = {
     # "yi-large-fc": YiHandler,  #  Their API is under maintenance, and will not be back online in the near future
     "palmyra-x-004": WriterHandler,
     "grok-beta": GrokHandler,
-    "meta-llama/Llama-3-8B-Instruct-FC": BamLlamaHandler,
-    # "meta-llama/Llama-3.1-8B-Instruct-FC": RtsLlamaHandler,
-    # "meta-llama/Llama-3.1-70B-Instruct-FC": RtsLlamaHandler,
-    # "meta-llama/Llama-3.2-11B-Instruct-FC": RtsLlamaHandler,
-    # "meta-llama/Llama-3.2-90B-Instruct-FC": RtsLlamaHandler,
-    # "meta-llama/Llama-3.3-70B-Instruct-FC": RtsLlamaHandler,
+    # "meta-llama/Llama-3-8B-Instruct-FC": BamLlamaHandler,
+    "meta-llama/Llama-3.1-8B-Instruct-FC": RitsLlamaFCHandler,
+    "meta-llama/llama-3-1-70b-instruct-FC": RitsLlamaFCHandler,
+    # "meta-llama/Llama-3.2-11B-Instruct-FC": RitsLlamaHandler,
+    # "meta-llama/Llama-3.2-90B-Instruct-FC": RitsLlamaHandler,
+    "meta-llama/llama-3-3-70b-instruct-FC": RitsLlamaFCHandler,
     # "Qwen/Qwen2.5-72B-Instruct": RtsQwenHandler,
+    "meta-llama/Llama-3.1-8B-Instruct": RitsLlamaHandlerOrig,
+    "meta-llama/llama-3-1-70b-instruct": RitsLlamaHandlerOrig,
+    "meta-llama/llama-3-3-70b-instruct": RitsLlamaHandlerOrig,
 }
 
 # Inference through local hosting

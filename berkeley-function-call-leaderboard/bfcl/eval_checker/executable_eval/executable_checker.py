@@ -16,8 +16,9 @@ def load_eval_ground_truth():
         return f.readlines()
 
 #### Main function ####
-def executable_checker_rest(func_call, idx):
-    EVAL_GROUND_TRUTH = load_eval_ground_truth()
+def executable_checker_rest(func_call, idx, instance=None):
+    if instance is None or 'execution_result' not in instance:
+        EVAL_GROUND_TRUTH = load_eval_ground_truth()
     
     if "https://geocode.maps.co" in func_call:
         time.sleep(2)
@@ -35,7 +36,10 @@ def executable_checker_rest(func_call, idx):
     try:
         if response.status_code == 200:
 
-            eval_GT_json = json.loads(EVAL_GROUND_TRUTH[idx])
+            if instance is None or 'execution_result' not in instance:
+                eval_GT_json = json.loads(EVAL_GROUND_TRUTH[idx])
+            else:
+                eval_GT_json = instance['execution_result']
             try:
                 if isinstance(eval_GT_json, dict):
                     if isinstance(response.json(), dict):
@@ -43,7 +47,7 @@ def executable_checker_rest(func_call, idx):
                             return {"valid": True, "error": [], "error_type": ""}
                         return {
                             "valid": False,
-                            "error": ["Key inconsistency"],
+                            "error": [f"Key inconsistency: response_keys={response.json().keys()}, gt_keys={eval_GT_json.keys()}"],
                             "error_type": "executable_checker_rest:wrong_key",
                         }
                     return {
@@ -79,7 +83,7 @@ def executable_checker_rest(func_call, idx):
                         return {
                             "valid": False,
                             "error": [
-                                f"Expected list, but got {type(response.json())}"
+                                f"Expected list, but got {type(response.json())}; gt = {json.dumps(eval_GT_json)}, response = {json.dumps(response.json())}"
                             ],
                             "error_type": "executable_checker_rest:wrong_type",
                         }
