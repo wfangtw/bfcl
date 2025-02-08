@@ -29,6 +29,8 @@ from bfcl.model_handler.proprietary_model.writer import WriterHandler
 from bfcl.model_handler.proprietary_model.yi import YiHandler
 from bfcl.model_handler.proprietary_model.grok import GrokHandler
 from bfcl.model_handler.oss_model.bam_llama import BamLlamaHandler
+from bfcl.model_handler.oss_model.rits_llama import RitsLlamaHandler
+from bfcl.model_handler.oss_model.rits_llama_fc import RitsLlamaFCHandler
 
 # TODO: Add meta-llama/Llama-3.1-405B-Instruct
 
@@ -100,13 +102,11 @@ api_inference_handler_map = {
     # "meta-llama/Llama-3-8B-Instruct-FC": BamLlamaHandler,
     "meta-llama/Llama-3.1-8B-Instruct-FC": RitsLlamaFCHandler,
     "meta-llama/llama-3-1-70b-instruct-FC": RitsLlamaFCHandler,
-    # "meta-llama/Llama-3.2-11B-Instruct-FC": RitsLlamaHandler,
-    # "meta-llama/Llama-3.2-90B-Instruct-FC": RitsLlamaHandler,
     "meta-llama/llama-3-3-70b-instruct-FC": RitsLlamaFCHandler,
     # "Qwen/Qwen2.5-72B-Instruct": RtsQwenHandler,
-    "meta-llama/Llama-3.1-8B-Instruct": RitsLlamaHandlerOrig,
-    "meta-llama/llama-3-1-70b-instruct": RitsLlamaHandlerOrig,
-    "meta-llama/llama-3-3-70b-instruct": RitsLlamaHandlerOrig,
+    "meta-llama/Llama-3.1-8B-Instruct": RitsLlamaHandler,
+    "meta-llama/llama-3-1-70b-instruct": RitsLlamaHandler,
+    "meta-llama/llama-3-3-70b-instruct": RitsLlamaHandler,
 }
 
 # Inference through local hosting
