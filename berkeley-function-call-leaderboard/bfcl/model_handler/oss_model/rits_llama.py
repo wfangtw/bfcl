@@ -156,22 +156,6 @@ class RitsLlamaHandler(BaseHandler):
         if 'examples' in test_entry and len(test_entry['examples']) > 0:
             examples_prompt = 'The following are example usages for the given functions:\n\n'
 
-            # for ex in test_entry['examples']:
-                # examples_prompt += f"Example question:{ex['question']}\nGround truth:{ex['answer']}\n\n"
-
-            # n = len(test_entry['examples'])
-            # rand_idx = list(np.random.permutation(np.arange(n)))
-            # n = n // 2
-            # single_exs = [test_entry['examples'][i] for i in rand_idx[:n]]
-            # double_exs = [test_entry['examples'][i] for i in rand_idx[n:n*2]]
-
-            # for ex in single_exs:
-                # examples_prompt += f"Example question:{ex['question']}\nGround truth:[{ex['answer']}]\n\n"
-            # for i in range(0, len(double_exs), 2):
-                # ques = ' '.join(ex['question'] for ex in double_exs[i:i+2])
-                # gt = ', '.join(ex['answer'] for ex in double_exs[i:i+2])
-                # examples_prompt += f"Example question:{ques}\nGround truth:[{gt}]\n\n"
-
             n = len(test_entry['examples'])
             rand_idx = list(np.random.permutation(np.arange(n)))
             n = n // 3
