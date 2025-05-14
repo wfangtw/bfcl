@@ -28,9 +28,7 @@ from bfcl.model_handler.proprietary_model.openai import OpenAIHandler
 from bfcl.model_handler.proprietary_model.writer import WriterHandler
 from bfcl.model_handler.proprietary_model.yi import YiHandler
 from bfcl.model_handler.proprietary_model.grok import GrokHandler
-from bfcl.model_handler.oss_model.bam_llama import BamLlamaHandler
 from bfcl.model_handler.oss_model.rits_llama import RitsLlamaHandler
-from bfcl.model_handler.oss_model.rits_llama_fc import RitsLlamaFCHandler
 
 # TODO: Add meta-llama/Llama-3.1-405B-Instruct
 
@@ -99,10 +97,6 @@ api_inference_handler_map = {
     # "yi-large-fc": YiHandler,  #  Their API is under maintenance, and will not be back online in the near future
     "palmyra-x-004": WriterHandler,
     "grok-beta": GrokHandler,
-    # "meta-llama/Llama-3-8B-Instruct-FC": BamLlamaHandler,
-    "meta-llama/Llama-3.1-8B-Instruct-FC": RitsLlamaFCHandler,
-    "meta-llama/llama-3-1-70b-instruct-FC": RitsLlamaFCHandler,
-    "meta-llama/llama-3-3-70b-instruct-FC": RitsLlamaFCHandler,
     # "Qwen/Qwen2.5-72B-Instruct": RtsQwenHandler,
     "meta-llama/Llama-3.1-8B-Instruct": RitsLlamaHandler,
     "meta-llama/llama-3-1-70b-instruct": RitsLlamaHandler,
@@ -116,9 +110,9 @@ local_inference_handler_map = {
     "google/gemma-2-27b-it": GemmaHandler,
     # "meta-llama/Meta-Llama-3-8B-Instruct": LlamaHandler,
     # "meta-llama/Meta-Llama-3-70B-Instruct": LlamaHandler,
-    # "meta-llama/Llama-3.1-8B-Instruct-FC": LlamaFCHandler,
+    "meta-llama/Llama-3.1-8B-Instruct-FC": LlamaFCHandler,
     # "meta-llama/Llama-3.1-8B-Instruct": LlamaHandler,
-    # "meta-llama/Llama-3.1-70B-Instruct-FC": LlamaFCHandler,
+    "meta-llama/Llama-3.1-70B-Instruct-FC": LlamaFCHandler,
     # "meta-llama/Llama-3.1-70B-Instruct": LlamaHandler,
     # "meta-llama/Llama-3.2-1B-Instruct": LlamaHandler,
     # "meta-llama/Llama-3.2-3B-Instruct": LlamaHandler,
