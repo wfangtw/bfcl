@@ -18,6 +18,7 @@ from bfcl.model_handler.utils import (
     system_prompt_pre_processing_chat_model,
 )
 from openai import OpenAI, RateLimitError
+import numpy as np
 
 
 class OpenAIHandler(BaseHandler):
@@ -64,6 +65,7 @@ class OpenAIHandler(BaseHandler):
                 model=self.model_name.replace("-FC", ""),
                 temperature=self.temperature,
                 tools=tools,
+                tool_choice='required',
             )
         else:
             return self.generate_with_backoff(
@@ -74,6 +76,38 @@ class OpenAIHandler(BaseHandler):
 
     def _pre_query_processing_FC(self, inference_data: dict, test_entry: dict) -> dict:
         inference_data["message"] = []
+        # insert in-context examples here
+        if 'examples' in test_entry and len(test_entry['examples']) > 0:
+            examples_prompt = 'The following are example usages for the given functions:\n\n'
+
+            n = len(test_entry['examples'])
+            rand_idx = list(np.random.permutation(np.arange(n)))
+            n = n // 3
+            single_exs = [test_entry['examples'][i] for i in rand_idx[:n]]
+            double_exs = [test_entry['examples'][i] for i in rand_idx[n:n*2]]
+            triple_exs = [test_entry['examples'][i] for i in rand_idx[n*2:]]
+
+            for ex in single_exs:
+                gt = convert_to_function_call([{ex['answer']['name']: ex['answer']['parameters']}])
+                examples_prompt += f"Example question:{ex['question']}\nGround truth:{gt}\n\n"
+            for i in range(0, len(double_exs), 2):
+                ques = ' '.join(ex['question'] for ex in double_exs[i:i+2])
+                gt = [{ex['answer']['name']: ex['answer']['parameters']} for ex in double_exs[i:i+2]]
+                gt = convert_to_function_call(gt)
+                # gt = ', '.join(ex['answer'] for ex in double_exs[i:i+2])
+                examples_prompt += f"Example question:{ques}\nGround truth:{gt}\n\n"
+            for i in range(0, len(triple_exs), 3):
+                ques = ' '.join(ex['question'] for ex in triple_exs[i:i+3])
+                gt = [{ex['answer']['name']: ex['answer']['parameters']} for ex in triple_exs[i:i+3]]
+                gt = convert_to_function_call(gt)
+                # gt = ', '.join(ex['answer'] for ex in triple_exs[i:i+3])
+                examples_prompt += f"Example question:{ques}\nGround truth:{gt}\n\n"
+
+            test_entry['question'][0].insert(
+                0,
+                {"role": "system", "content": examples_prompt},
+            )
+
         return inference_data
 
     def _compile_tools(self, inference_data: dict, test_entry: dict) -> dict:
